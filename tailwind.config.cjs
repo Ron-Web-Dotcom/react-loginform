@@ -64,6 +64,13 @@ module.exports = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+  		boxShadow: {
+  			elegant: 'var(--shadow-elegant)',
+  			glow: 'var(--shadow-glow)'
+  		},
+  		transitionProperty: {
+  			smooth: 'var(--transition-smooth)'
+  		},
   		fontFamily: {
   			sans: [
   				'var(--font-sans)'

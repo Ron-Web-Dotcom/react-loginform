@@ -43,15 +43,17 @@ export const PasswordIntelligence = ({ password }) => {
   if (!password || password.length < 4) return null;
 
   return (
-    <div className="mt-3 p-3 rounded-xl bg-white/50 border border-primary/10 animate-in space-y-2">
+    <div className="mt-4 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-primary/10 backdrop-blur-sm animate-in space-y-3 group shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {isLoading ? (
             <Sparkles className="w-4 h-4 text-primary animate-spin" />
           ) : (
-            <Shield className={`w-4 h-4 ${analysis?.score > 70 ? 'text-green-500' : 'text-amber-500'}`} />
+            <div className={`p-1 rounded-lg ${analysis?.score > 70 ? 'bg-green-500/10' : 'bg-amber-500/10'}`}>
+              <Shield className={`w-3.5 h-3.5 ${analysis?.score > 70 ? 'text-green-500' : 'text-amber-500'}`} />
+            </div>
           )}
-          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">AI Security Score</span>
+          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.15em]">Neural Strength Audit</span>
         </div>
         {!isLoading && analysis && (
           <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
