@@ -5,11 +5,7 @@ import App from './App'
 import './index.css'
 
 function getProjectId() {
-  const envId = import.meta.env.VITE_BLINK_PROJECT_ID
-  if (envId) return envId
-  const hostname = window.location.hostname
-  const match = hostname.match(/^([^.]+)\.sites\.blink\.new$/)
-  return match ? match[1] : 'react-login-form-82kdj26e'
+  return import.meta.env.VITE_BLINK_PROJECT_ID || 'react-login-form-82kdj26e'
 }
 
 createRoot(document.getElementById('root') as HTMLElement).render(
