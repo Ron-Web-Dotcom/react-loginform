@@ -33,10 +33,13 @@ export const AIAssistant = () => {
   // Initialize the agentic chat interface
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useAgent({
     agent: supportAgent,
+    initialMessages: [
+      { role: 'assistant', content: 'Neural link established. How can I assist with your Identity Lite onboarding or access today?' }
+    ]
   });
 
-  // Only render the assistant if the user is logged in
-  if (!isAuthenticated) return null;
+  // No longer blocking the assistant for non-authenticated users
+  // if (!isAuthenticated) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50">

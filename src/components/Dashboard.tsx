@@ -33,8 +33,8 @@ export const Dashboard = () => {
     setIsGeneratingAvatar(true);
     try {
       const { data } = await blink.ai.generateImage({
-        prompt: `A futuristic, high-tech AI avatar for a character named ${personaName}. Minimalist, sleek design, cinematic lighting, neon accents, highly detailed, 3D render style.`,
-        model: 'fal-ai/nano-banana-pro',
+        prompt: `Hyper-realistic, futuristic, cybernetic portrait of a ${personaName} character. Ultra-detailed neural interface components, glowing light patterns, sharp focus, cinematic lighting, 8k resolution, minimalist high-tech background.`,
+        model: 'fal-ai/flux/schnell',
         size: '1024x1024'
       });
       if (data?.[0]?.url) {

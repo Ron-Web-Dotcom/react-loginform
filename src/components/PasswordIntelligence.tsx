@@ -43,25 +43,34 @@ export const PasswordIntelligence = ({ password }) => {
   if (!password || password.length < 4) return null;
 
   return (
-    <div className="mt-4 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-primary/10 backdrop-blur-sm animate-in space-y-3 group shadow-sm hover:shadow-md transition-all duration-300">
+    <div className="mt-4 p-5 rounded-3xl bg-white/40 dark:bg-white/5 border border-primary/10 backdrop-blur-md animate-in space-y-4 group shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-500 relative overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-3xl -z-10 animate-pulse" />
+      
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           {isLoading ? (
             <Sparkles className="w-4 h-4 text-primary animate-spin" />
           ) : (
-            <div className={`p-1 rounded-lg ${analysis?.score > 70 ? 'bg-green-500/10' : 'bg-amber-500/10'}`}>
-              <Shield className={`w-3.5 h-3.5 ${analysis?.score > 70 ? 'text-green-500' : 'text-amber-500'}`} />
+            <div className={`p-1.5 rounded-xl ${analysis?.score > 70 ? 'bg-green-500/10' : analysis?.score > 40 ? 'bg-amber-500/10' : 'bg-rose-500/10'}`}>
+              <Shield className={`w-4 h-4 ${analysis?.score > 70 ? 'text-green-500' : analysis?.score > 40 ? 'text-amber-500' : 'text-rose-500'}`} />
             </div>
           )}
-          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.15em]">Neural Strength Audit</span>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Neural Audit</span>
+            <span className="text-[8px] font-bold text-primary/60 uppercase tracking-widest">AI Core Active</span>
+          </div>
         </div>
         {!isLoading && analysis && (
-          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-            analysis.score > 70 ? 'bg-green-100 text-green-700' : 
-            analysis.score > 40 ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700'
-          }`}>
-            {analysis.score}%
-          </span>
+          <div className="flex flex-col items-end">
+            <span className={`text-[10px] font-black px-2.5 py-1 rounded-lg ${
+              analysis.score > 70 ? 'bg-green-500/10 text-green-600' : 
+              analysis.score > 40 ? 'bg-amber-500/10 text-amber-600' : 'bg-rose-500/10 text-rose-600'
+            }`}>
+              {analysis.level.toUpperCase()}
+            </span>
+            <span className="text-[9px] font-bold text-muted-foreground mt-1">{analysis.score}% Integrity</span>
+          </div>
         )}
       </div>
 

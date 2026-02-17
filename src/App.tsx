@@ -155,6 +155,35 @@ const App = () => {
                   </>
                 )}
               </Button>
+
+              {/* Divider for Social Login */}
+              <div className="relative flex items-center gap-4 px-2">
+                <div className="h-px w-full bg-border/40" />
+                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest whitespace-nowrap">Neural Bridge</span>
+                <div className="h-px w-full bg-border/40" />
+              </div>
+
+              {/* Social Login Buttons */}
+              <div className="grid grid-cols-2 gap-4">
+                <Button 
+                  type="button"
+                  variant="outline"
+                  onClick={() => blink.auth.signInWithGoogle()}
+                  className="h-14 rounded-2xl bg-white/40 dark:bg-white/5 border-white/40 hover:bg-white/60 dark:hover:bg-white/10 transition-all flex items-center justify-center gap-3 font-bold text-xs"
+                >
+                  <img src="/google.svg" alt="Google" className="w-5 h-5" />
+                  GOOGLE
+                </Button>
+                <Button 
+                  type="button"
+                  variant="outline"
+                  onClick={() => blink.auth.signInWithApple()}
+                  className="h-14 rounded-2xl bg-white/40 dark:bg-white/5 border-white/40 hover:bg-white/60 dark:hover:bg-white/10 transition-all flex items-center justify-center gap-3 font-bold text-xs"
+                >
+                  <img src="/apple.svg" alt="Apple" className="w-5 h-5 dark:invert" />
+                  APPLE
+                </Button>
+              </div>
             </form>
 
             {/* View switcher between login and registration */}
