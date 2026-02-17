@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react";
 import { useBlinkAuth } from "@blinkdotnew/react";
-import { Mail, Lock, Sparkles, Chrome, Apple, ArrowRight, Loader2, UserPlus, Fingerprint } from "lucide-react";
+import { Mail, Lock, Sparkles, ArrowRight, Loader2, UserPlus, Fingerprint } from "lucide-react";
 import { blink } from "./lib/blink";
 import { PasswordIntelligence } from "./components/PasswordIntelligence";
 import { AIAssistant } from "./components/AIAssistant";
 import { Dashboard } from "./components/Dashboard";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
-import { Card } from "./components/ui/card";
 import { toast } from "sonner";
 
+/**
+ * App Component
+ * 
+ * The main entry point for the authentication flow. It handles:
+ * - Authentication state checking via useBlinkAuth
+ * - Login/Signup form rendering and submission
+ * - Layout orchestration between Auth, Dashboard, and AI Assistant
+ */
 const App = () => {
   const { isAuthenticated, isLoading: authLoading, user } = useBlinkAuth();
   const [email, setEmail] = useState("");
@@ -17,6 +24,7 @@ const App = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
 
+  // Show loading spinner while authentication state is being determined
   if (authLoading) {
     return (
       <div className="h-screen flex items-center justify-center bg-background">
@@ -25,6 +33,7 @@ const App = () => {
     );
   }
 
+  // Redirect to Dashboard if already authenticated
   if (isAuthenticated) {
     return (
       <>
@@ -34,6 +43,12 @@ const App = () => {
     );
   }
 
+  /**
+   * handleAuth
+   * 
+   * Orchestrates the email/password authentication flow.
+   * Supports both sign-up and sign-in based on the current mode.
+   */
   const handleAuth = async (e) => {
     e.preventDefault();
     if (!email || !password) return;
@@ -54,18 +69,9 @@ const App = () => {
     }
   };
 
-  const handleSocialLogin = (provider) => {
-    try {
-      if (provider === 'google') blink.auth.signInWithGoogle();
-      if (provider === 'apple') blink.auth.signInWithApple();
-    } catch (error) {
-      toast.error(`Social login failed: ${error.message}`);
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-background relative overflow-hidden selection:bg-primary/20">
-      {/* Dynamic Background Elements */}
+      {/* Dynamic Background Elements - Animated blur circles for visual depth */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px] animate-pulse delay-1000" />
@@ -73,53 +79,29 @@ const App = () => {
       </div>
 
       <div className="w-full max-w-md relative z-10 animate-in">
+        {/* Branding Section */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-6 border border-primary/20 shadow-sm backdrop-blur-sm">
             <Sparkles className="w-3.5 h-3.5" />
             Next-Gen AI Security
           </div>
           <h1 className="text-5xl font-black tracking-tight text-foreground mb-4">
-            Identity <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent italic">Lite</span>
+            Identity <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent italic px-2">Lite</span>
           </h1>
           <p className="text-muted-foreground text-sm font-medium max-w-[280px] mx-auto leading-relaxed">
             Experience the fusion of artificial intelligence and ultra-secure authentication.
           </p>
         </div>
 
+        {/* Auth Container Card */}
         <div className="glass-card p-10 relative overflow-hidden group">
+          {/* Top border beam animation */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-border-beam opacity-50" />
           
           <div className="space-y-8">
-            <div className="grid grid-cols-2 gap-4">
-              <Button 
-                variant="outline" 
-                onClick={() => handleSocialLogin('google')}
-                className="h-14 gap-3 bg-white/40 dark:bg-white/5 border-white/50 hover:bg-white dark:hover:bg-white/10 hover:border-primary/50 transition-all duration-500 rounded-2xl shadow-sm group"
-              >
-                <Chrome className="w-5 h-5 text-rose-500 group-hover:rotate-12 transition-transform" />
-                <span className="text-xs font-bold tracking-tight">Google</span>
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={() => handleSocialLogin('apple')}
-                className="h-14 gap-3 bg-white/40 dark:bg-white/5 border-white/50 hover:bg-white dark:hover:bg-white/10 hover:border-primary/50 transition-all duration-500 rounded-2xl shadow-sm group"
-              >
-                <Apple className="w-5 h-5 group-hover:-rotate-12 transition-transform" />
-                <span className="text-xs font-bold tracking-tight">Apple</span>
-              </Button>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-muted-foreground/10" />
-              </div>
-              <div className="relative flex justify-center text-[10px] uppercase tracking-widest">
-                <span className="bg-transparent px-4 text-muted-foreground/60 font-bold backdrop-blur-sm">Neural Engine Auth</span>
-              </div>
-            </div>
-
             <form onSubmit={handleAuth} className="space-y-6">
               <div className="space-y-4">
+                {/* Email input field with icon */}
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
                   <Input
@@ -131,6 +113,7 @@ const App = () => {
                     required
                   />
                 </div>
+                {/* Password input field with icon and AI strength meter */}
                 <div className="space-y-3">
                   <div className="relative group">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
@@ -143,18 +126,20 @@ const App = () => {
                       required
                     />
                   </div>
+                  {/* Dynamic password analysis component */}
                   <PasswordIntelligence password={password} />
                 </div>
               </div>
 
               {!isSignUp && (
                 <div className="flex justify-end">
-                  <button type="button" className="text-xs font-semibold text-primary hover:underline">
+                  <button type="button" className="text-xs font-semibold text-primary hover:underline transition-all">
                     Forgot password?
                   </button>
                 </div>
               )}
 
+              {/* Main action button */}
               <Button 
                 type="submit" 
                 className="w-full h-14 rounded-2xl text-sm font-black tracking-wide shadow-glow hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 gap-2 bg-gradient-to-r from-primary to-accent border-none"
@@ -172,6 +157,7 @@ const App = () => {
               </Button>
             </form>
 
+            {/* View switcher between login and registration */}
             <div className="text-center pt-2">
               <button 
                 onClick={() => setIsSignUp(!isSignUp)}

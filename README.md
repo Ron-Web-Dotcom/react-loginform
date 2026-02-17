@@ -1,59 +1,67 @@
-# Enhanced Vite React TypeScript Template
+# React Login Lite AI
 
-This template includes built-in detection for missing CSS variables between your Tailwind config and CSS files.
+A simple and modern React-based login form transformed into an AI-powered authentication experience. This project demonstrates the integration of artificial intelligence into core identity flows, including password analysis, dynamic persona generation, and an automated support assistant.
 
 ## Features
 
-- **CSS Variable Detection**: Automatically detects if CSS variables referenced in `tailwind.config.cjs` are defined in `src/index.css`
-- **Enhanced Linting**: Includes ESLint, Stylelint, and custom CSS variable validation
-- **Shadcn/ui**: Pre-configured with all Shadcn components
-- **Modern Stack**: Vite + React + TypeScript + Tailwind CSS
+- **AI-Powered Authentication**: Secure login and sign-up powered by Blink SDK.
+- **AI Password Intelligence**: Real-time analysis of password strength with intelligent suggestions.
+- **Dynamic AI Personas**: Automatically generates a unique AI identity and description for every user based on their email.
+- **AI Avatar Generation**: Creates high-fidelity, futuristic avatars matching the user's generated persona.
+- **Neural Support Assistant**: A floating AI chat assistant to help users with onboarding and security questions.
+- **Glassmorphic UI**: A premium, modern design with animated backgrounds and sleek visuals.
 
-## Available Scripts
+## Tech Stack
 
-```bash
-# Run all linting (includes CSS variable check)
-npm run lint
+- **Framework**: React + Vite + TypeScript
+- **Styling**: Tailwind CSS + Lucide Icons
+- **Backend/AI**: [Blink SDK](https://blink.new/docs)
+- **UI Components**: Radix UI (via Shadcn)
 
-# Check only CSS variables
-npm run check:css-vars
+## Getting Started
 
-# Individual linting
-npm run lint:js    # ESLint
-npm run lint:css   # Stylelint
-```
+### Prerequisites
 
-## CSS Variable Detection
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [Bun](https://bun.sh/) (recommended for faster dependency management)
 
-The template includes a custom script that:
+### Installation
 
-1. **Parses `tailwind.config.cjs`** to find all `var(--variable)` references
-2. **Parses `src/index.css`** to find all defined CSS variables (`--variable:`)
-3. **Cross-references** them to find missing definitions
-4. **Reports undefined variables** with clear error messages
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd react-login-lite-ai
+   ```
 
-### Example Output
+2. Install dependencies:
+   ```bash
+   bun install
+   # or
+   npm install
+   ```
 
-When CSS variables are missing:
-```
-❌ Undefined CSS variables found in tailwind.config.cjs:
-   --sidebar-background
-   --sidebar-foreground
-   --sidebar-primary
+3. Set up environment variables:
+   Create a `.env.local` file and add your Blink Project credentials:
+   ```env
+   VITE_BLINK_PROJECT_ID=your-project-id
+   VITE_BLINK_PUBLISHABLE_KEY=your-publishable-key
+   ```
 
-Add these variables to src/index.css
-```
+4. Start the development server:
+   ```bash
+   bun dev
+   # or
+   npm run dev
+   ```
 
-When all variables are defined:
-```
-✅ All CSS variables in tailwind.config.cjs are defined
-```
+## Project Structure
 
-## How It Works
+- `src/App.tsx`: The main entry point and auth flow orchestrator.
+- `src/components/Dashboard.tsx`: Post-auth experience with persona and avatar generation.
+- `src/components/AIAssistant.tsx`: Floating AI chat component.
+- `src/components/PasswordIntelligence.tsx`: AI password strength analyzer.
+- `src/lib/blink.ts`: Blink SDK configuration.
 
-The detection happens during the `npm run lint` command, which will:
-- Exit with error code 1 if undefined variables are found
-- Show exactly which variables need to be added to your CSS file
-- Integrate seamlessly with your development workflow
+## License
 
-This prevents runtime CSS issues where Tailwind classes reference undefined CSS variables.
+This project is licensed under the MIT License.

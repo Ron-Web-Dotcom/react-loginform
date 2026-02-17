@@ -6,11 +6,15 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from './ui/
 import { Skeleton } from './ui/skeleton';
 import { blink } from '../lib/blink';
 
-const personaAgent = new Agent({
-  model: 'google/gemini-3-flash',
-  system: 'You are a creative persona generator. Based on a user email, suggest a unique AI identity, catchphrase, and description.',
-});
-
+/**
+ * Dashboard Component
+ * 
+ * Displays the authenticated user's AI-generated identity and system status.
+ * Features:
+ * - Automated persona generation based on user email
+ * - Dynamic AI avatar generation matching the persona
+ * - System security metrics and analytics
+ */
 export const Dashboard = () => {
   const { user, signOut } = useBlinkAuth();
   const [persona, setPersona] = useState(null);
@@ -18,6 +22,12 @@ export const Dashboard = () => {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false);
 
+  /**
+   * generateAvatar
+   * 
+   * Uses Blink AI's generateImage to create a futuristic avatar
+   * based on the persona's name.
+   */
   const generateAvatar = async (personaName) => {
     if (!personaName) return;
     setIsGeneratingAvatar(true);
@@ -37,6 +47,12 @@ export const Dashboard = () => {
     }
   };
 
+  /**
+   * generatePersona
+   * 
+   * Uses Blink AI's generateObject to create a structured persona identity.
+   * This persona includes a name, title, description, catchphrase, and theme color.
+   */
   const generatePersona = async () => {
     if (!user?.email) return;
     setIsGenerating(true);
@@ -56,6 +72,7 @@ export const Dashboard = () => {
         }
       });
       setPersona(object);
+      // Automatically trigger avatar generation for the new persona
       await generateAvatar(object.name);
     } catch (error) {
       console.error('Persona generation failed:', error);
@@ -64,6 +81,7 @@ export const Dashboard = () => {
     }
   };
 
+  // Automatically generate persona on initial load if user is available
   useEffect(() => {
     generatePersona();
   }, [user]);
@@ -71,6 +89,7 @@ export const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background p-6 sm:p-12 animate-in selection:bg-primary/20">
       <div className="max-w-6xl mx-auto space-y-10">
+        {/* Header Navigation */}
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-primary/10 rounded-2xl shadow-sm border border-primary/20 backdrop-blur-sm">
@@ -94,6 +113,7 @@ export const Dashboard = () => {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          {/* Identity Profile Card */}
           <Card className="lg:col-span-1 border-none shadow-2xl glass-card overflow-hidden group">
             <div className="h-40 bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient relative">
                <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-32 h-32 rounded-[2rem] bg-background p-1.5 shadow-2xl overflow-hidden group-hover:scale-105 transition-transform duration-500">
@@ -153,6 +173,7 @@ export const Dashboard = () => {
             </CardContent>
           </Card>
 
+          {/* System Integrity & Insights Section */}
           <div className="lg:col-span-2 space-y-8">
             <Card className="border-none shadow-lg glass-card p-8 space-y-6">
               <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
