@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useBlinkAuth } from "@blinkdotnew/react";
-import { Mail, Lock, Sparkles, Chrome, Apple, ArrowRight, Loader2, UserPlus, Fingerprint, Globe } from "lucide-react";
+import { Mail, Lock, Sparkles, Chrome, Apple, ArrowRight, Loader2, UserPlus, Fingerprint } from "lucide-react";
 import { blink } from "./lib/blink";
 import { PasswordIntelligence } from "./components/PasswordIntelligence";
 import { AIAssistant } from "./components/AIAssistant";
@@ -9,14 +9,11 @@ import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
 import { Card } from "./components/ui/card";
 import { toast } from "sonner";
-import { isValidDomain } from "./lib/utils";
 
 const App = () => {
   const { isAuthenticated, isLoading: authLoading, user } = useBlinkAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [domain, setDomain] = useState("");
-  const [domainError, setDomainError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
 
@@ -40,13 +37,6 @@ const App = () => {
   const handleAuth = async (e) => {
     e.preventDefault();
     if (!email || !password) return;
-    
-    if (domain && !isValidDomain(domain)) {
-      setDomainError("Invalid workspace domain format");
-      return;
-    } else {
-      setDomainError("");
-    }
     
     setIsSubmitting(true);
     try {
@@ -130,20 +120,6 @@ const App = () => {
 
             <form onSubmit={handleAuth} className="space-y-6">
               <div className="space-y-4">
-                <div className="relative group">
-                  <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
-                  <Input
-                    type="text"
-                    placeholder="Workspace Domain (optional)"
-                    value={domain}
-                    onChange={(e) => {
-                      setDomain(e.target.value);
-                      if (domainError) setDomainError("");
-                    }}
-                    className={`pl-12 h-14 bg-white/40 dark:bg-white/5 border-white/40 focus:bg-white dark:focus:bg-white/10 focus:ring-primary/20 transition-all rounded-2xl text-sm font-medium ${domainError ? 'border-destructive/50 ring-destructive/20' : ''}`}
-                  />
-                  {domainError && <p className="text-[10px] text-destructive font-bold mt-1.5 ml-4 uppercase tracking-wider">{domainError}</p>}
-                </div>
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
                   <Input
